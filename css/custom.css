@@ -3,6 +3,9 @@
     font-size: 13px !important;
     background-color: #f0f0f0;
 }
+.dropdown-item.active, .dropdown-item:active {
+	background-color: var(--bs-primary) !important;
+}
 .wp-calendar-nav {
     display: none !important;
 }
