@@ -21,6 +21,8 @@
  $inc = get_stylesheet_directory() . '/inc';
  $includes = [
 	'enqueue.php',
+	'icons.php',
+	'media.php',
 	'function-child.php'
  ];
 

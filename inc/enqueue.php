@@ -55,16 +55,7 @@ if (!function_exists('justg_child_enqueue_parent_style')) {
             $theme->parent()->get('Version')
         );
 
-        // load bootstrap-icons
-        wp_enqueue_style(
-            'velocity-tour1-bootstrap-icons',
-            get_stylesheet_directory_uri() . '/css/bootstrap-icons.css',
-            array(),
-            filemtime(get_stylesheet_directory() . '/css/bootstrap-icons.css') // ini untuk cache busting
-        );
-
-        // $css_version = $theme->parent()->get('Version') . '.' . filemtime( get_stylesheet_directory() . '/css/custom.css' );
-        $css_version = $theme->parent()->get('Version');
+        $css_version = $theme->parent()->get('Version') . '.' . filemtime(get_stylesheet_directory() . '/css/custom.css');
         wp_enqueue_style(
             'velocity-tour1-custom-style',
             get_stylesheet_directory_uri() . '/css/custom.css',

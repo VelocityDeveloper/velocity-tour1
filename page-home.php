@@ -10,17 +10,17 @@
  */
 
 get_header();
-$home_judul = velocitytheme_option('home_judul');
-$home_keterangan = velocitytheme_option('home_keterangan');
-$home_teks_tombol = velocitytheme_option('home_teks_tombol');
-$home_link = velocitytheme_option('home_link');
-$home_banner = velocitytheme_option('home_banner');
-$gambar_kecil1 = velocitytheme_option('home_banner1');
-$gambar_kecil2 = velocitytheme_option('home_banner2');
-$judul_keunggulan = velocitytheme_option('judul_keunggulan');
-$keunggulan = velocitytheme_option('keunggulan_items');
-$home_judul_galeri = velocitytheme_option('home_judul_galeri');
-$home_galeri = velocitytheme_option('home_galeri');
+$home_judul        = (string) velocitytheme_option('home_judul', '');
+$home_keterangan   = (string) velocitytheme_option('home_keterangan', '');
+$home_teks_tombol  = (string) velocitytheme_option('home_teks_tombol', 'Pesan Sekarang');
+$home_link         = (string) velocitytheme_option('home_link', '');
+$home_banner       = velocitychild_resolve_image_value_to_url(velocitytheme_option('home_banner', ''), 'large');
+$gambar_kecil1     = velocitychild_resolve_image_value_to_url(velocitytheme_option('home_banner1', ''), 'large');
+$gambar_kecil2     = velocitychild_resolve_image_value_to_url(velocitytheme_option('home_banner2', ''), 'large');
+$judul_keunggulan  = (string) velocitytheme_option('judul_keunggulan', '');
+$keunggulan        = velocitychild_get_home_keunggulan_items();
+$home_judul_galeri = (string) velocitytheme_option('home_judul_galeri', '');
+$home_galeri       = velocitychild_get_home_gallery_items();
 ?>
 
 <div class="wrapper" id="page-wrapper">
@@ -30,23 +30,23 @@ $home_galeri = velocitytheme_option('home_galeri');
         <div class="col-12 col-md-6 col-xl-7 velocity-home-banner-text text-center text-md-start mb-4 mb-md-0">
 			<div class="velocity-banner-text-frame">
                 <?php if(!empty($home_judul)){ ?>
-                    <h1 class="velocity-home-banner-title mb-4"><?php echo $home_judul; ?></h1>
+                    <h1 class="velocity-home-banner-title mb-4"><?php echo esc_html($home_judul); ?></h1>
                 <?php } if(!empty($home_keterangan)){ ?>
-			        <p class="fs-5"><?php echo $home_keterangan; ?></p>
+			        <div class="fs-5"><?php echo wp_kses_post($home_keterangan); ?></div>
                 <?php } ?>
                     <div class="pt-4">
-                        <a class="btn btn-lg btn-outline-light px-5 py-3 text-uppercase fw-bold" href="<?php echo $home_link; ?>"><?php echo $home_teks_tombol; ?></a>
+                        <a class="btn btn-lg btn-outline-light px-5 py-3 text-uppercase fw-bold" href="<?php echo esc_url($home_link); ?>"><?php echo esc_html($home_teks_tombol); ?></a>
                     </div>
 			</div>
         </div>
         <div class="col-12 col-md-6 col-xl-5 pt-4 pt-md-0 velocity-home-banner-image text-center">
 			<div class="velocity-image-frame">
                 <?php if(!empty($home_banner)){ ?>
-				    <img class="image-1" src="<?php echo $home_banner; ?>">
+				    <img class="image-1" src="<?php echo esc_url($home_banner); ?>" alt="">
                 <?php } if(!empty($gambar_kecil1)){ ?>
-				    <img class="image-2" src="<?php echo $gambar_kecil1; ?>" />
+				    <img class="image-2" src="<?php echo esc_url($gambar_kecil1); ?>" alt="">
                 <?php } if(!empty($gambar_kecil2)){ ?>
-				    <img class="image-3" src="<?php echo $gambar_kecil2; ?>" />
+				    <img class="image-3" src="<?php echo esc_url($gambar_kecil2); ?>" alt="">
                 <?php } ?>
 			</div>
         </div>
@@ -71,13 +71,7 @@ if ($query->have_posts()) : ?>
             <?php while ($query->have_posts()) : $query->the_post(); ?>
                 <div class="col-md-4 mb-4">
                     <div class="card h-100 pb-5">
-                        <?php if (has_post_thumbnail()) : ?>
-                            <a href="<?php the_permalink(); ?>">
-                                <div class="ratio ratio-1x1">
-                                    <?php the_post_thumbnail('large', ['class' => 'card-img-top']); ?>
-                                </div>
-                            </a>
-                        <?php endif; ?>
+                        <?php echo velocitychild_get_post_thumbnail_html(get_the_ID(), array('ratio' => '1x1', 'img_class' => 'w-100 h-100 object-fit-cover')); ?>
                         <div class="card-body pb-0">
                             <h3 class="card-title fs-5 fw-bold">
                                 <a href="<?php the_permalink(); ?>" class="text-decoration-none text-dark">
@@ -115,20 +109,20 @@ endif;
 <div class="bg-theme text-white velocity-keunggulan">
     <div class="container py-5">
         <div class="row py-5 my-3 text-center">
-            <h2 class="col-12 fs-2 fw-bold text-center text-white mb-4"><?php echo $judul_keunggulan; ?></h2>
+            <h2 class="col-12 fs-2 fw-bold text-center text-white mb-4"><?php echo esc_html($judul_keunggulan); ?></h2>
             <?php foreach ($keunggulan as $item) : ?>
                 <div class="col-md-3 mb-4">
                     <div class="h-100 p-4 border rounded shadow-sm">
                         <?php if (!empty($item['icon'])) : ?>
                             <div class="mb-3">
-                                <i class="bi bi-<?php echo esc_attr($item['icon']); ?> fs-1 color-theme d-inline-flex justify-content-center align-items-center rounded-circle bg-white"></i>
+                                <span class="velocity-keunggulan-icon"><?php echo velocitychild_get_bootstrap_icon_html($item['icon']); ?></span>
                             </div>
                         <?php endif; ?>
                         <?php if (!empty($item['nama'])) : ?>
                             <h3 class="h4 fw-bold mb-2 text-white"><?php echo esc_html($item['nama']); ?></h3>
                         <?php endif; ?>
                         <?php if (!empty($item['deskripsi'])) : ?>
-                            <p class="text-white"><?php echo esc_html($item['deskripsi']); ?></p>
+                            <div class="text-white"><?php echo wp_kses_post($item['deskripsi']); ?></div>
                         <?php endif; ?>
                     </div>
                 </div>
@@ -143,14 +137,16 @@ endif;
 <div class="container py-5">
     <div class="py-5 my-3 text-center">
         <?php if(!empty($home_judul_galeri)){ ?>
-            <h2 class="fs-2 fw-bold mb-4"><?php echo $home_judul_galeri; ?></h2>
+            <h2 class="fs-2 fw-bold mb-4"><?php echo esc_html($home_judul_galeri); ?></h2>
         <?php } ?>
         <div class="row">
             <?php foreach ($home_galeri as $item) : ?>
+            <?php $gallery_url = isset($item['gambar_url']) ? (string) $item['gambar_url'] : ''; ?>
+            <?php if (empty($gallery_url)) { continue; } ?>
             <div class="col-md-3 col-6 mb-4">
-                <a href="<?php echo esc_url($item['gambar']); ?>" class="galeri-popup">
+                <a href="<?php echo esc_url($gallery_url); ?>" class="galeri-popup">
                 <div class="ratio ratio-1x1">
-                    <img src="<?php echo esc_url($item['gambar']); ?>" class="img-fluid rounded shadow-sm" />
+                    <img src="<?php echo esc_url($gallery_url); ?>" class="img-fluid rounded shadow-sm object-fit-cover" alt="" />
                 </div>
                 </a>
             </div>

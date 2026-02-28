@@ -13,6 +13,7 @@ $email = velocitytheme_option('kontak_email');
         </small>
     <?php } if (!empty($whatsapp)) {
         $whatsapp = $whatsapp ? preg_replace('/[^0-9]/', '', $whatsapp) : $whatsapp;
+        $whatsapp_number = $whatsapp;
         if (substr($whatsapp, 0, 1) == 0) {
             $whatsapp_number    = substr_replace($whatsapp, '62', 0, 1);
         } ?>

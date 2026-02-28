@@ -1,7 +1,6 @@
 [data-bs-theme=light] body {
     font-family: 'Inter', sans-serif !important;
     font-size: 13px !important;
-    background-color: #f0f0f0;
 }
 .dropdown-item.active, .dropdown-item:active {
 	background-color: var(--bs-primary) !important;
@@ -86,10 +85,24 @@ a {
 #primary-menu a {
     font-size: 0.8rem;
 }
-.velocity-keunggulan .bi {
-  width: 60px;
-  height: 60px;
-  font-size: 24px;
+.velocity-keunggulan .velocity-keunggulan-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 999px;
+  background-color: #ffffff;
+  color: var(--bs-primary);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.velocity-keunggulan .velocity-keunggulan-icon .bi {
+  font-size: 30px;
+  line-height: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1em;
+  height: 1em;
 }
 .velocity-widget .table>:not(caption)>*>*, 
 .velocity-widget .widget_calendar .wp-calendar-table>:not(caption)>*>*,
@@ -187,6 +200,9 @@ a {
 .vdgallery-kolom .vdgallery-item img {
     object-fit: cover;
     aspect-ratio: 1/1;
+}
+.object-fit-cover {
+    object-fit: cover;
 }
 h1 {
     font-size: 23px !important;
@@ -351,9 +367,6 @@ a:hover {
     #primary-menu > li.current-menu-item > a,
     #primary-menu > li > a:hover {
         color: var(--bs-primary);
-    }
-    .pr-md-0 {
-        padding-right: 0 !important;
     }
 }
 
